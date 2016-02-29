@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <%
+  var title = page.title;
+  var title_suffix = ' - ' + config.title;
+
+
+  if (is_archive()){
+    title = 'Archives';
+
+    if (is_month()){
+      title += ': ' + page.year + '/' + page.month;
+    } else if (is_year()){
+      title += ': ' + page.year;
+    }
+  } else if (is_category()){
+    if (page.category) {
+                title += __('global.category') + ': ' + page.category;
+            }
+            else {
+                title += __('global.categories');
+            }
+
+            title += title_suffix;
+  } else if (is_tag()){
+    if (page.tag) {
+                title += __('global.tag') + ': ' + page.tag;
+            }
+            else {
+                title += __('global.tags');
+            }
+
+            title += title_suffix;
+  }
+   /**
+     * Get global and page keywords
+     */
+    (function() {
+        if (config.keywords) {
+            keywords += config.keywords;
+            keywords += ',';
+        }
+        if (page.keywords) {
+            keywords += page.keywords;
+        }
+    })();
+  %>
+  <meta name="google-site-verification" content="qwpiLtLdUJ0n0fbhZibibWYv_CqpXlFjiCZp8L1cxXM" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title><% if (title){ %><%= title %> | <% } %><%= config.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <%- open_graph({twitter_id: theme.twitter, google_plus: theme.google_plus, fb_admins: theme.fb_admins, fb_app_id: theme.fb_app_id}) %>
+  <% if (theme.rss){ %>
+    <link rel="alternative" href="<%- theme.rss %>" title="<%= config.title %>" type="application/atom+xml">
+  <% } %>
+
+  <% if (theme.jquery_ui){ %>
+      <link href="//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css" rel="stylesheet">
+  <% } %>
+  <link href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" rel="stylesheet">
+  <% if (theme.favicon){ %>
+    <link rel="icon" href="<%- theme.favicon %>">
+  <% } %>
+  <%- css('css/style') %>
+</head>
+
